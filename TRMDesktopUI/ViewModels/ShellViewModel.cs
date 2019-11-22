@@ -12,16 +12,15 @@ namespace TRMDesktopUI.ViewModels
     {
         private IEventAggregator _events;
         private SalesViewModel _saleVM;
-        private SimpleContainer _container;
-        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, SimpleContainer container)
+       
+        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM)
         {
             _events = events;
             _saleVM = salesVM;
-            _container = container;
             
             _events.Subscribe(this);
            
-            ActivateItem(_container.GetInstance<LoginViewModel>());
+            ActivateItem(IoC.Get<LoginViewModel>());
         }
 
         void IHandle<LogOnEvent>.Handle(LogOnEvent message)
