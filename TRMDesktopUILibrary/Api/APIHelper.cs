@@ -76,7 +76,7 @@ namespace TRMDesktopUILibrary.Api
                 if(response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<LoggedInUserModel>();
-                    _loggedInUser.CreateDate = result.CreateDate;
+                    _loggedInUser.CreatedDate = result.CreatedDate;
                     _loggedInUser.EmailAdress = result.EmailAdress;
                     _loggedInUser.FirstName = result.FirstName;
                     _loggedInUser.Id = result.Id;
