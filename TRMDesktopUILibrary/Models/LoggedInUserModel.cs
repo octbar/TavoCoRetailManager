@@ -15,7 +15,7 @@ namespace TRMDesktopUILibrary.Models
         public string EmailAdress { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public void LogOffUser()
+        public void ResetUser()
         {
             Token = "";
             Id = "";
