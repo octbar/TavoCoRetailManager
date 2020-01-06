@@ -13,6 +13,7 @@ namespace TRMDataManager.Controllers
     [Authorize]
     public class SaleController : ApiController
     {
+        [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
@@ -20,7 +21,9 @@ namespace TRMDataManager.Controllers
 
             data.SaveSale(sale, userId);
         }
-       [Route("GetSalesreport")]
+
+        [Authorize(Roles = "Admin,Manager")]
+        [Route("GetSalesreport")]
         public List<SaleReportModel> GetSalesReport()
         {
             SaleData data = new SaleData();
