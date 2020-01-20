@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TRMDesktopUI.EventsModels;
 using TRMDesktopUI.Helpers;
@@ -100,7 +101,7 @@ namespace TRMDesktopUI.ViewModels
 
                 await _apiHelper.GetLoggedUserInfo(result.Access_token);
 
-                _events.PublishOnUIThread(new LogOnEvent());
+                await _events.PublishOnUIThreadAsync(new LogOnEvent(), new CancellationToken());
             }
             catch (Exception ex)
             {
