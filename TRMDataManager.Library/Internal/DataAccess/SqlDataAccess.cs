@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace TRMDataManager.Library.Internal.DataAccess
 {
-    public class SqlDataAccess: IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
         public SqlDataAccess(IConfiguration config)
         {
             _config = config;
         }
-         internal string GetConnectionString (string name)
+        internal string GetConnectionString(string name)
         {
             return _config.GetConnectionString(name);
         }
 
-        public List<T> LoadData<T, U>( string storedProcedure, U parameters, string connectionStringName)
+        public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
         {
-            string connectionString = GetConnectionString(connectionStringName); 
+            string connectionString = GetConnectionString(connectionStringName);
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
@@ -47,7 +47,7 @@ namespace TRMDataManager.Library.Internal.DataAccess
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
-        public void StartTransaction (string connectionStringName) 
+        public void StartTransaction(string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
 
@@ -61,9 +61,9 @@ namespace TRMDataManager.Library.Internal.DataAccess
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
         {
-             List<T> rows = _connection.Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
-                return rows;
+            return rows;
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
@@ -92,13 +92,13 @@ namespace TRMDataManager.Library.Internal.DataAccess
 
         public void Dispose()
         {
-            if(isClosed == false )
+            if (isClosed == false)
             {
                 try
                 {
                     Committransaction();
                 }
-                catch 
+                catch
                 {
                     // TODO - Log this issue
                 }
@@ -106,7 +106,7 @@ namespace TRMDataManager.Library.Internal.DataAccess
 
             _transaction = null;
             _connection = null;
-           
+
         }
     }
 }
